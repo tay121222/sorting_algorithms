@@ -26,9 +26,9 @@ void swap_nodes(listint_t *a, listint_t *b)
  * @list: head of the list
  * @tail: tail of the current pass
  */
-void tail_traverse_sort(listint_t **list, listint_t *tail)
+listint_t *tail_traverse_sort(listint_t *head, listint_t **list, listint_t *tail)
 {
-	while (tail->prev && tail)
+	while (tail->prev != NULL)
 	{
 		if (tail->n < tail->prev->n)
 		{
@@ -40,8 +40,9 @@ void tail_traverse_sort(listint_t **list, listint_t *tail)
 		else
 			tail = tail->prev;
 		if (tail->prev == NULL)
-			*list = tail;
+			head = tail;
 	}
+	return(head);
 }
 
 /**
@@ -86,7 +87,8 @@ void cocktail_sort_list(listint_t **list)
 				tail = head;
 		}
 
-		tail_traverse_sort(list, tail);
+		head = tail_traverse_sort(head, list, tail);
+		*list = head;
 		j++;
 	}
 }
