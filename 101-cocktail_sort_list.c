@@ -3,7 +3,6 @@
 
 /**
  * swap_nodes - Swaps two nodes in the list
- * @list: Pointer to the head of the list
  * @a: Pointer to the first node to be swapped
  * @b: Pointer to the second node to be swapped
  */
@@ -23,6 +22,29 @@ void swap_nodes(listint_t *a, listint_t *b)
 }
 
 /**
+ * tail_traverse_sort - Sorts a list of integers in ascending order
+ * @list: head of the list
+ * @tail: tail of the current pass
+ */
+void tail_traverse_sort(listint_t **list, listint_t *tail)
+{
+	while (tail->prev != NULL)
+	{
+		if (tail->n < tail->prev->n)
+		{
+			swap_nodes(tail->prev, tail);
+			if (tail->prev == NULL)
+				*list = tail;
+			print_list(*list);
+		}
+		else
+			tail = tail->prev;
+		if (tail->prev == NULL)
+			*list = tail;
+	}
+}
+
+/**
  * cocktail_sort_list - Sorts a list of integers in ascending order
  * @list: Pointer to the head of the list
  */
@@ -32,12 +54,10 @@ void cocktail_sort_list(listint_t **list)
 	int i = 0;
 	listint_t *head = *list;
 	listint_t *tail = NULL;
-	listint_t *tmp = NULL;
 	listint_t *len = *list;
 
-	if (!list || !(*list) || !((*list)->next))
+	if (!list || !(*list))
 		return;
-	    
 	while (len)
 	{
 		len = len->next;
@@ -50,39 +70,22 @@ void cocktail_sort_list(listint_t **list)
 	while (swapped)
 	{
 		swapped = 0;
-		tmp = head;
-
-		while (tmp->next != tail)
+		while (head->next && head)
 		{
-			if (tmp->n > tmp->next->n)
+			if (head->n > head->next->n)
 			{
-				swap_nodes(tmp, tmp->next);
-				swapped = 1;
-				if (tmp->prev == NULL)
-					*list = tmp;
+				swap_nodes(head, head->next);
+				swapped++;
+				if (head->prev == NULL)
+					*list = head;
 				print_list(*list);
 			}
 			else
-				tmp = tmp->next;
+				head = head->next;
+			if (head->next == NULL)
+				tail = head;
 		}
-		tail = tmp;
 
-		if (!swapped)
-			break;
-
-		while (tail->prev != NULL)
-		{
-			if (tail->n < tail->prev->n)
-			{
-				swap_nodes(tail->prev, tail);
-				if (tail->prev == NULL)
-					*list = tail;
-				print_list(*list);
-			}
-			else
-				tail = tail->prev;
-			if (tail->prev == NULL)
-				head = tail;
-		}
+		tail_traverse_sort(list, tail);
 	}
 }
