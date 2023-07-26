@@ -23,10 +23,14 @@ void swap_nodes(listint_t *a, listint_t *b)
 
 /**
  * tail_traverse_sort - Sorts a list of integers in ascending order
- * @list: head of the list
+ * @head: head of the list
+ * @list: pointer to the head of the list
  * @tail: tail of the current pass
+ *
+ * Return: new head
  */
-listint_t *tail_traverse_sort(listint_t *head, listint_t **list, listint_t *tail)
+listint_t *tail_traverse_sort(listint_t *head,
+		listint_t **list, listint_t *tail)
 {
 	while (tail->prev != NULL)
 	{
@@ -42,7 +46,7 @@ listint_t *tail_traverse_sort(listint_t *head, listint_t **list, listint_t *tail
 		if (tail->prev == NULL)
 			head = tail;
 	}
-	return(head);
+	return (head);
 }
 
 /**
