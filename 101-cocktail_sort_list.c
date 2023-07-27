@@ -30,16 +30,16 @@ void swap_nodes(listint_t *a, listint_t *b)
  * Return: new head
  */
 listint_t *tail_traverse_sort(listint_t *head,
-		listint_t **list, listint_t *tail)
+		listint_t *list, listint_t *tail)
 {
-	while (tail->prev != NULL)
+	while (tail->prev && tail)
 	{
 		if (tail->n < tail->prev->n)
 		{
 			swap_nodes(tail->prev, tail);
 			if (tail->prev == NULL)
-				*list = tail;
-			print_list(*list);
+				list = tail;
+			print_list(list);
 		}
 		else
 			tail = tail->prev;
@@ -81,8 +81,8 @@ void cocktail_sort_list(listint_t **list)
 			{
 				swap_nodes(head, head->next);
 				swapped++;
-				if (head->prev == NULL)
-					*list = head;
+				if (head->prev->prev == NULL)
+					*list = head->prev;
 				print_list(*list);
 			}
 			else
@@ -91,7 +91,7 @@ void cocktail_sort_list(listint_t **list)
 				tail = head;
 		}
 
-		head = tail_traverse_sort(head, list, tail);
+		head = tail_traverse_sort(head, *list, tail);
 		*list = head;
 		j++;
 	}
