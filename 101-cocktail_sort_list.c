@@ -57,12 +57,16 @@ void cocktail_sort_list(listint_t **list)
 {
 	int swapped = 1;
 	int i = 0, j = 0;
-	listint_t *head = *list;
+	listint_t *head;
 	listint_t *tail = NULL;
-	listint_t *len = *list;
+	listint_t *len;
 
-	if (!list || !(*list))
+	if (!list || !(*list) || !(*list)->next)
 		return;
+
+	head = *list;
+	len = *list;
+
 	while (len)
 	{
 		len = len->next;
